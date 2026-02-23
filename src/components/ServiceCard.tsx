@@ -35,8 +35,7 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
         </h3>
 
         <p className="text-xs text-[var(--color-text-secondary)] mb-3">
-          {service.memberName} <span className="mx-1">•</span> v
-          {service.serviceVersion}
+          {service.memberName}
         </p>
 
         <p className="text-sm text-[var(--color-text-secondary)] mb-4 flex-grow line-clamp-3">

@@ -24,25 +24,31 @@ export interface Service {
   textoAlternativo: string;
 }
 
-const BASE_URL = "https://certificados.mxm.mendoza.gov.ar/apiportaledi/api";
+const BASE_URL = process.env.API_BASE_URL;
 
-// Para saltar validación SSL en desarrollo si es necesario (Nota: En Edge Runtime esto no funciona igual, pero en Node si)
+// Para saltar validación SSL en desarrollo
 if (process.env.NODE_ENV === "development") {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
 export async function login(): Promise<string | null> {
-  // Credenciales provistas por el usuario
+  if (!BASE_URL || !process.env.API_USER || !process.env.API_PASSWORD) {
+    console.error(
+      "Error: Variables de entorno API_BASE_URL, API_USER y API_PASSWORD son requeridas. Verificá el archivo .env",
+    );
+    return null;
+  }
+
   const payload = {
-    Username: process.env.API_USER || "portaledi",
-    Password: process.env.API_PASSWORD || "PortalEdi1945!",
+    Username: process.env.API_USER,
+    Password: process.env.API_PASSWORD,
   };
 
   try {
     const res = await fetch(`${BASE_URL}/authenticate/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload), // Claves PascalCase requeridas por la API
+      body: JSON.stringify(payload),
       cache: "no-store",
     });
 
@@ -60,7 +66,7 @@ export async function login(): Promise<string | null> {
 }
 
 export async function getServices(
-  token?: string
+  token?: string,
 ): Promise<{ data: Service[]; error?: string }> {
   if (!token) {
     token = (await login()) || undefined;
@@ -77,7 +83,7 @@ export async function getServices(
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      next: { revalidate: 60 }, // Cache corto de 1 minuto
+      next: { revalidate: 60 },
     });
 
     if (!res.ok) {
@@ -93,5 +99,4 @@ export async function getServices(
   }
 }
 
-// Mantenemos mocks solo como referencia estructural o fallback extremo manual
 export const MOCK_SERVICES: Service[] = [];
