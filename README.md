@@ -172,11 +172,4 @@ npm run lint
 
 ---
 
-## Variables de Entorno
-
-| Variable       | Default          | Descripción                    |
-| -------------- | ---------------- | ------------------------------ |
-| `API_USER`     | `portaledi`      | Usuario para autenticación API |
-| `API_PASSWORD` | `PortalEdi1945!` | Contraseña para autenticación  |
-
 > **Nota**: En desarrollo, se deshabilita la validación SSL (`NODE_TLS_REJECT_UNAUTHORIZED=0`).
