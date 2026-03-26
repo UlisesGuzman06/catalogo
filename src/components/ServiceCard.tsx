@@ -20,6 +20,7 @@ export function ServiceCard({ service, onClick }: ServiceCardProps) {
             label={service.subsystemCode}
             variant="default"
             className="bg-gray-100 text-gray-700 border border-gray-200"
+            title="Subsistema"
           />
           <Badge label={statusLabel} variant={statusVariant} />
         </div>

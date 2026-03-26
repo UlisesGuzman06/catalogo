@@ -4,9 +4,15 @@ interface BadgeProps {
   label: string;
   variant?: "success" | "error" | "default";
   className?: string;
+  title?: string;
 }
 
-export function Badge({ label, variant = "default", className }: BadgeProps) {
+export function Badge({
+  label,
+  variant = "default",
+  className,
+  title,
+}: BadgeProps) {
   const variantStyles = {
     success: "bg-[var(--color-success-bg)] text-[var(--color-success-text)]",
     error: "bg-[var(--color-error-bg)] text-[var(--color-error-text)]",
@@ -15,6 +21,7 @@ export function Badge({ label, variant = "default", className }: BadgeProps) {
 
   return (
     <span
+      title={title}
       className={cn(
         "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium",
         variantStyles[variant],

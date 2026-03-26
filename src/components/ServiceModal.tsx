@@ -53,7 +53,10 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
                   <span className="bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase">
                     {service.serviceType}
                   </span>
-                  <span className="text-xs text-slate-500 uppercase tracking-wide font-medium">
+                  <span
+                    title="Subsistema"
+                    className="text-xs text-slate-500 uppercase tracking-wide font-medium"
+                  >
                     {service.subsystemCode}
                   </span>
                 </div>
