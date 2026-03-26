@@ -26,6 +26,9 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  type TabType = "general" | "tecnico" | "respuesta";
+  const tabs: TabType[] = ["general", "tecnico", "respuesta"];
+
   return (
     <AnimatePresence>
       {service && (
@@ -68,10 +71,10 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
 
             {/* Tabs */}
             <div className="border-b border-slate-200 px-6 flex space-x-6 shrink-0 bg-white sticky top-0">
-              {["general", "tecnico", "respuesta"].map((tab) => (
+              {tabs.map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveTab(tab as any)}
+                  onClick={() => setActiveTab(tab)}
                   className={cn(
                     "py-3 text-sm font-medium border-b-2 transition-colors capitalize",
                     activeTab === tab
@@ -205,7 +208,7 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
                       Ejemplo de Respuesta (JSON)
                     </h3>
                     <button
-                      onClick={() => copyToClipboard(service.respuesta)}
+                      onClick={() => copyToClipboard(service.respuesta || "")}
                       className="bg-white border border-slate-200 px-2 py-1 rounded text-xs font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-1.5"
                     >
                       {copied ? "Copiado" : "Copiar"}

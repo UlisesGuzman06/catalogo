@@ -4,7 +4,7 @@ import { Service } from "@/lib/api";
 import { ServiceCard } from "@/components/ServiceCard";
 import { ServiceModal } from "@/components/ServiceModal";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Badge } from "@/components/Badge";
 
 const PAGE_SIZE = 9;
@@ -21,10 +21,6 @@ export default function ServiceCatalog({
   const [selectedMember, setSelectedMember] = useState<string>("todos");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Reset page when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, selectedMember]);
 
   const members = useMemo(() => {
     const names = new Set(initialServices.map((s) => s.memberName));
@@ -37,7 +33,8 @@ export default function ServiceCatalog({
       const matchesSearch =
         s.serviceCode.toLowerCase().includes(term) ||
         s.descripcion.toLowerCase().includes(term) ||
-        s.memberName.toLowerCase().includes(term);
+        s.memberName.toLowerCase().includes(term) ||
+        s.subsystemCode.toLowerCase().includes(term);
 
       const matchesMember =
         selectedMember === "todos" || s.memberName === selectedMember;
@@ -78,7 +75,10 @@ export default function ServiceCatalog({
                 <input
                   type="text"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setCurrentPage(1);
+                  }}
                   placeholder="Buscar servicios..."
                   className="w-full pl-9 pr-3 py-2 bg-white border border-[var(--color-border)] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] placeholder:text-gray-400 text-[var(--color-text-main)]"
                 />
@@ -101,7 +101,10 @@ export default function ServiceCatalog({
                       type="radio"
                       name="member"
                       checked={selectedMember === member}
-                      onChange={() => setSelectedMember(member)}
+                      onChange={() => {
+                        setSelectedMember(member);
+                        setCurrentPage(1);
+                      }}
                       className="rounded-full border-gray-300 text-[var(--color-primary)] focus:ring-[var(--color-primary)]"
                     />
                     <span className="capitalize">
@@ -111,6 +114,7 @@ export default function ServiceCatalog({
                 ))}
               </div>
             </div>
+
 
             <div className="pt-4 border-t border-[var(--color-border)]">
               <div className="text-xs text-[var(--color-text-secondary)] text-center">

@@ -1,4 +1,3 @@
-import { ServiceCard } from "@/components/ServiceCard";
 
 export interface Service {
   idServicio: number;
@@ -59,8 +58,8 @@ export async function login(): Promise<string | null> {
 
     const data = await res.json();
     return data.token;
-  } catch (error) {
-    console.error("Error conexión login:", error);
+  } catch (_error) {
+    console.error("Error conexión login:", _error);
     return null;
   }
 }
@@ -93,8 +92,8 @@ export async function getServices(
 
     const data: Service[] = await res.json();
     return { data };
-  } catch (error) {
-    console.error("Error fetch servicios:", error);
+  } catch (_error) {
+    console.error("Error fetch servicios:", _error);
     return { data: [], error: "Error de red al conectar con catálogo." };
   }
 }
